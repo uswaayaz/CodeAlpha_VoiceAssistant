@@ -1,76 +1,18 @@
-# CodeAlpha_VoiceAssistant
-import speech_recognition as sr
-import datetime
-import pyttsx3
-import subprocess
-import pywhatkit
+This is the simple Voice assitant program that acts like a translator. It listens for your voice, converts it to text, and figures out what you want. Then, it uses different tools depending on your request, like searching the web, playing music, or tell the current time.  
+ 
+Technologies Used
+This code utilizes several Python libraries to create a basic virtual assistant:
 
-engine = pyttsx3.init()
-voices = engine.getProperty('voices')
+Speech Recognition (speech_recognition): This library converts spoken audio captured by your microphone into text. It allows the program to understand your voice commands.
+Text-to-Speech (pyttsx3): This library does the opposite of speech recognition. It turns text into spoken audio, enabling the program to respond to you with a synthesized voice.
+Date and Time (datetime): This library is used to access the current date and time. It allows the program to tell you the time when you ask for it.
+Subprocess: This library allows the program to execute other programs on your computer. Here, it's used to launch your web browser (Chrome) when you say "chrome."
+pywhatkit (unofficial): This library is used to interact with YouTube. In this case, it attempts to play videos based on your request. However, it's important to note that pywhatkit is an unofficial library and its functionality might be limited or unreliable.
 
-engine.setProperty('voice',voices[1].id)
-engine.say("I am your alexa")
-engine.say("how may i help you.....")
-engine.runAndWait()
+Key Features
+This code demonstrates a few key features of a virtual assistant:
 
-engine.setProperty('voice', voices[1].id) 
-recognizer = sr.Recognizer()
-
-
-def take_command():
-    """Captures voice input and performs speech recognition."""
-    print("Clearing background noise...")
-    with sr.Microphone() as source:
-        recognizer.adjust_for_ambient_noise(source, duration=0.5)
-        print("Listening...")
-        recorded_audio = recognizer.listen(source)
-
-    try:
-        command = recognizer.recognize_google(recorded_audio, language="en-US")
-        print("You said:", command)
-        return command.lower()  
-    except Exception as ex:
-        print(ex)
-        print("Could not understand your voice. Please try again.")
-        return None
-
-
-def run_alexa():
-    """Executes tasks based on voice commands."""
-    while True:
-        command = take_command()
-        if not command:
-            continue
-
-        if " open the chrome" in command:
-            chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe" 
-            subprocess.Popen([chrome_path])
-            engine.say("Opening Chrome...")
-            engine.runAndWait()
-
-        elif "time" in command:
-            current_time = datetime.datetime.now().strftime("%I:%M %p")
-            print(current_time)
-            engine.say(current_time)
-            engine.runAndWait()
-
-        elif "play" in command:
-            video_title = command.split("play ")[1]  
-            engine.say("Opening YouTube and playing " + video_title)
-            engine.runAndWait()
-            try:
-                pywhatkit.playonyt(video_title)  
-            except Exception as ex:  
-                print(f"Error playing video: {ex}")
-                print("Opening YouTube for manual search...")
-                subprocess.Popen(["https://www.youtube.com/"])  # Open YouTube in browser
-
-        elif "exit" in command:
-            print("Exiting...")
-            engine.say("Goodbye and see you again")
-            engine.runAndWait()
-            break
-
-
-if __name__ == "__main__":
-    run_alexa()
+Voice Recognition: It listens to your voice commands and converts them to text for processing.
+Speech Synthesis: It responds to your commands using a synthesized voice, providing audible feedback.
+Basic Command Understanding: It can understand and respond to a limited set of commands, including opening Chrome, telling the time, and attempting to play videos on YouTube.
+User Interaction Loop: It continuously listens for your commands, creating an interactive experience.
