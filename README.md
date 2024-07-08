@@ -1,4 +1,4 @@
-This is the simple Voice assitant program that acts like a translator. It listens for your voice, converts it to text, and figures out what you want. Then, it uses different tools depending on your request, like searching the web, playing music, or tell the current time.  
+This is the simple Voice assistant program that acts like a translator. It listens for your voice, converts it to text, and figures out what you want. Then, it uses different tools depending on your request, like searching the web, playing music, or tell the current time.  
  
 Technologies Used
 This code utilizes several Python libraries to create a basic virtual assistant:
